@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { showToast } from 'vant'
 import { postLogoutApi, postSendCodeApi, postSendCodeEmailApi } from '@/api/logout'
+import backIcon from '@/assets/images/navBar/back_black.png'
 
 const route = useRoute()
 const router = useRouter()
@@ -105,11 +106,9 @@ onMounted(() => {
 
 <template>
   <div class="px-12px bg-#fff h-100vh">
-    <van-nav-bar>
-      <template #left>
-        <van-icon name="arrow-left" class="text-18px font-bold" @click="goToBack" />
-      </template>
-    </van-nav-bar>
+    <div class="flex h-48px items-center">
+      <img :src="backIcon" width="24" height="24" @click="goToBack">
+    </div>
 
     <div class="flex flex-col justify-center">
       <div class="text-24px font-600 mb-75px mt-15px">

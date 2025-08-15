@@ -1,5 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router'
+import backIcon from '@/assets/images/navBar/back_black.png'
 import successIcon from '@/assets/images/success.svg'
 
 const router = useRouter()
@@ -11,11 +12,9 @@ function goToNext() {
 
 <template>
   <div class="px-12px bg-#fff h-100vh">
-    <van-nav-bar>
-      <template #left>
-        <van-icon name="arrow-left" class="text-18px font-bold" @click="goToNext" />
-      </template>
-    </van-nav-bar>
+    <div class="flex h-48px items-center">
+      <img :src="backIcon" width="24" height="24" @click="goToNext">
+    </div>
 
     <div class="flex flex-col items-center justify-center">
       <img :src="successIcon" width="64" height="64" class="mt-21px">

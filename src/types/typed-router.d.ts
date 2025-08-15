@@ -20,12 +20,8 @@ declare module 'vue-router/auto-routes' {
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '404': RouteRecordInfo<'404', '/:all(.*)', { all: ParamValue<true> }, { all: ParamValue<false> }>,
-    '/detail/': RouteRecordInfo<'/detail/', '/detail', Record<never, never>, Record<never, never>>,
-    '/detail/more/': RouteRecordInfo<'/detail/more/', '/detail/more', Record<never, never>, Record<never, never>>,
-    '/invite/': RouteRecordInfo<'/invite/', '/invite', Record<never, never>, Record<never, never>>,
-    '/invite-setting/': RouteRecordInfo<'/invite-setting/', '/invite-setting', Record<never, never>, Record<never, never>>,
-    '/rebate-variety/': RouteRecordInfo<'/rebate-variety/', '/rebate-variety', Record<never, never>, Record<never, never>>,
-    '/rule/': RouteRecordInfo<'/rule/', '/rule', Record<never, never>, Record<never, never>>,
-    '/rule/old': RouteRecordInfo<'/rule/old', '/rule/old', Record<never, never>, Record<never, never>>,
+    '/fail/': RouteRecordInfo<'/fail/', '/fail', Record<never, never>, Record<never, never>>,
+    '/success/': RouteRecordInfo<'/success/', '/success', Record<never, never>, Record<never, never>>,
+    '/verify/': RouteRecordInfo<'/verify/', '/verify', Record<never, never>, Record<never, never>>,
   }
 }

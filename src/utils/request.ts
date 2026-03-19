@@ -2,7 +2,7 @@ import type { AxiosError, InternalAxiosRequestConfig } from 'axios'
 import axios from 'axios'
 import { showNotify } from 'vant'
 import { STORAGE_DEVICE_ID_KEY, STORAGE_TOKEN_KEY } from '@/stores/mutation-type'
-
+import jsBridge from './jsBridge'
 // 创建 axios 实例
 const request = axios.create({
   // API 请求的默认前缀
@@ -41,13 +41,20 @@ function errorHandler(error: RequestError): Promise<any> {
 }
 
 // 请求拦截器
-function requestHandler(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig> {
+async function requestHandler(config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig>> {
   const savedToken = localStorage.getItem(STORAGE_TOKEN_KEY)
   const savedDeviceId = localStorage.getItem(STORAGE_DEVICE_ID_KEY)
+  let data = null
+  try {
+    data = await jsBridge.call('getPackageName')
+  }
+  catch (error) {
+    console.error('getPackageName', error)
+  }
   // todo keliang7 token 临时
   config.headers['x-request-id'] = savedDeviceId
   config.headers.Authorization = savedToken
-
+  config.headers['x-pkg-name'] = data?.packageName || 'com.futureinvest.mt51.test'
   return config
 }
 

@@ -41,7 +41,7 @@ function errorHandler(error: RequestError): Promise<any> {
 }
 
 // 请求拦截器
-async function requestHandler(config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig>> {
+async function requestHandler(config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> {
   const savedToken = localStorage.getItem(STORAGE_TOKEN_KEY)
   const savedDeviceId = localStorage.getItem(STORAGE_DEVICE_ID_KEY)
   let data = null

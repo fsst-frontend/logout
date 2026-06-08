@@ -57,7 +57,7 @@ async function goToNext() {
     <div class="flex flex-col items-center justify-center">
       <img :src="infoIcon" width="64" height="64" class="mb-30px mt-80px">
       <div class="text-18px font-600 mb-15px">
-        Delete Fuyuan Account
+        Delete Glamex Global Account
       </div>
       <div class="text-12px text-#60656D mb-27px">
         If you choose to cancel your account, the following will occur:

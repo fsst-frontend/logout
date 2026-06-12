@@ -54,7 +54,7 @@ async function requestHandler(config: InternalAxiosRequestConfig): Promise<Inter
   // todo keliang7 token 临时
   config.headers['x-request-id'] = savedDeviceId
   config.headers.Authorization = savedToken
-  config.headers['x-pkg-name'] = data?.packageName || 'com.fuyuan.lite'
+  config.headers['x-pkg-name'] = data?.packageName || 'com.glamextrade.lite'
   return config
 }
 

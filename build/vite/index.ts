@@ -31,6 +31,13 @@ export function createVitePlugins(mode: string) {
 
     vue(),
 
+    // 部署时保留代理前缀；开发服务器从根路径加载仓库内的运行时配置。
+    {
+      name: 'dev-runtime-config-path',
+      apply: 'serve',
+      transformIndexHtml: (html: string) => html.replace('src="../env/env.js"', 'src="/polymer/env/env.js"'),
+    },
+
     // https://github.com/jbaubree/vite-plugin-sitemap
     Sitemap({
       outDir: env.VITE_APP_OUT_DIR || 'dist',
@@ -102,17 +109,17 @@ export function createVitePlugins(mode: string) {
         theme_color: '#ffffff',
         icons: [
           {
-            src: '/pwa-192x192.png',
+            src: './pwa-192x192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: '/pwa-512x512.png',
+            src: './pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
           },
           {
-            src: '/pwa-512x512.png',
+            src: './pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable',

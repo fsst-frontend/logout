@@ -19,7 +19,8 @@ let callId = 0
 const callbackMap = {}
 const eventMap = {}
 
-let isParentReady = false
+/** 宿主与子页可跨源，以直接父窗口首次握手的来源为准。 */
+let parentOrigin: string | undefined
 const pendingPayloads: any[] = []
 
 /**
@@ -56,11 +57,11 @@ function callNative(method, data = {}): Promise<any> {
         window.CMSScriptMessageChannel.postMessage(JSON.stringify(payload))
       }
       else if (window.parent !== window) {
-        if (!isParentReady) {
+        if (!parentOrigin) {
           pendingPayloads.push(payload)
         }
         else {
-          window.parent.postMessage(payload, '*')
+          window.parent.postMessage(payload, parentOrigin)
         }
       }
       else {
@@ -105,14 +106,26 @@ function on(event, callback) {
 window.CMSJsCallBack = onAppMessage
 window.CMSCallJsMessage = onAppMessage
 window.addEventListener('message', (event) => {
-  if (event.data?.type === 'web-bridge-ready') {
-    isParentReady = true
-    pendingPayloads.forEach((payload) => {
-      window.parent.postMessage(payload, '*')
-    })
-    pendingPayloads.length = 0
+  if (window.parent === window || event.source !== window.parent)
+    return
+  if (!event.data || typeof event.data !== 'object')
+    return
+  if (event.data.type === 'web-bridge-ready') {
+    if (!/^https?:\/\//.test(event.origin))
+      return
+    // 首次握手锁定直接父窗口的来源，后续握手不能改绑。
+    if (!parentOrigin)
+      parentOrigin = event.origin
+    if (event.origin !== parentOrigin)
+      return
+    const queued = pendingPayloads.splice(0)
+    for (const payload of queued) {
+      window.parent.postMessage(payload, parentOrigin)
+    }
     return
   }
+  if (!parentOrigin || event.origin !== parentOrigin)
+    return
   onAppMessage(event.data)
 })
 

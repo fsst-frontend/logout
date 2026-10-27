@@ -102,6 +102,25 @@ export function createVitePlugins(mode: string) {
     // https://github.com/antfu/vite-plugin-pwa
     VitePWA({
       registerType: 'autoUpdate',
+      workbox: {
+        // 不预缓存构建产物：预缓存会让发版后的下一次打开仍跑旧版本，
+        // 旧版本再去请求新镜像里已不存在的带 hash 资源，图片坏图、chunk 加载失败
+        globPatterns: [],
+        navigateFallback: null,
+        cleanupOutdatedCaches: true,
+        skipWaiting: true,
+        clientsClaim: true,
+        runtimeCaching: [
+          {
+            urlPattern: ({ request }) => request.mode === 'navigate',
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'html-cache',
+              networkTimeoutSeconds: 5,
+            },
+          },
+        ],
+      },
       includeAssets: ['favicon.svg', 'safari-pinned-tab.svg'],
       manifest: {
         name: 'vue3-vant-mobile',

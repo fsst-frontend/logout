@@ -235,7 +235,7 @@ Our contributors have made this project better. Thank you! 🙏
 
 - `build/vite/index.ts` 的 PWA：不预缓存构建产物（`globPatterns: []`、`navigateFallback: null`）；页面 NetworkFirst 不设超时，网慢也等服务器，只有断网才用缓存；`importScripts` 带 `./sw-upgrade.js`。
 - [public/sw-upgrade.js](public/sw-upgrade.js)：手机上残留的旧版 SW（预缓存整套页面）换成本版时，把它给出的旧页面刷新一次。与 common 子模块的同名文件保持一致，测试在 common 的 `tests/sw-upgrade.test.mjs`。
-- 内容会变、又要固定地址的文件放 `public/`（nginx 给 `no-cache`，发版即生效）；`src/` 里引入的图片等构建后文件名带 hash（nginx 给长期缓存）。
+- 内容会变、又要固定地址的文件放 `public/`（nginx 给 no-store，各层都不缓存，发版即生效）；`src/` 里引入的图片等构建后文件名带 hash（nginx 给长期缓存）。
 
 ## License
 

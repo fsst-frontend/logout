@@ -107,6 +107,8 @@ export function createVitePlugins(mode: string) {
         // 旧版本再去请求新镜像里已不存在的带 hash 资源，图片坏图、chunk 加载失败
         globPatterns: [],
         navigateFallback: null,
+        // 手机上残留的旧版 SW（预缓存整套页面）换成本版时，把它给出的旧页面刷新一次（public/sw-upgrade.js）
+        importScripts: ['./sw-upgrade.js'],
         cleanupOutdatedCaches: true,
         skipWaiting: true,
         clientsClaim: true,
@@ -114,9 +116,9 @@ export function createVitePlugins(mode: string) {
           {
             urlPattern: ({ request }) => request.mode === 'navigate',
             handler: 'NetworkFirst',
+            // 页面一律取最新版：不设超时，网慢也等服务器，只有断网才用缓存兜底
             options: {
               cacheName: 'html-cache',
-              networkTimeoutSeconds: 5,
             },
           },
         ],

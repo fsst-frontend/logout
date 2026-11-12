@@ -229,6 +229,14 @@ Our contributors have made this project better. Thank you! 🙏
 <a href="https://github.com/1411430556"><img src="https://avatars.githubusercontent.com/u/67215517?v=4" width="60px" alt="1411430556" /></a>
 </p>
 
+## 缓存与 Service Worker
+
+发版后不再拿到旧页面、旧资源的约定，完整口径（nginx `Cache-Control`、Cloudflare / ZTCF 节点行为、发版保留旧 assets）见 polymer 仓库 README「缓存与发版」。本仓库负责：
+
+- `build/vite/index.ts` 的 PWA：不预缓存构建产物（`globPatterns: []`、`navigateFallback: null`）；页面 NetworkFirst 不设超时，网慢也等服务器，只有断网才用缓存；`importScripts` 带 `./sw-upgrade.js`。
+- [public/sw-upgrade.js](public/sw-upgrade.js)：手机上残留的旧版 SW（预缓存整套页面）换成本版时，把它给出的旧页面刷新一次。与 common 子模块的同名文件保持一致，测试在 common 的 `tests/sw-upgrade.test.mjs`。
+- 内容会变、又要固定地址的文件放 `public/`（nginx 给 `no-cache`，发版即生效）；`src/` 里引入的图片等构建后文件名带 hash（nginx 给长期缓存）。
+
 ## License
 
 [MIT](./LICENSE) License
